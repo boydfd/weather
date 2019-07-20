@@ -62,8 +62,8 @@ class Weather:
 
     def get_weather(self, date):
         url = self.get_url(date)
-        weather_json = self.get_weather_json(url)
-        df = pd.read_json(weather_json, orient='records')
+        weather = self.get_weather_json(url)
+        df = pd.DataFrame(weather)
         df[month_index] = date
         return df
 
@@ -88,9 +88,8 @@ class Weather:
         weather = requests.get(url).text.split('=')[1][:-1]
         self.log(weather)
         weather = demjson.decode(weather)['tqInfo']
-        weather = json.dumps(weather)
         return weather
 
 
 if __name__ == '__main__':
-    Weather('温州').plot_weather('201701', '201906')
+    Weather('深圳').plot_weather('201701', '201906')
